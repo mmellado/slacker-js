@@ -1,0 +1,191 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Slacker.js</title>
+  <meta name="description" content="Slacker is a standalone JavaScript tool to lazy load images on a page. Slacker uses data- attributes which store the images actual source and then replace a dummy src in the image when it becomes visible in the viewport.">
+  <meta name="keywords" content="javascript, js, performance, lazy loading, image defer">
+  <meta name="author" content="Marcos Mellado (@mmellado)">
+  <meta property="og:title" content="Slacker.js" />
+  <meta property="og:site_name" content="Marcos Mellado's projects" />
+  <meta property="og:url" content="http://www.mellados.com/labs/slacker" />
+  <meta property="og:description" content="Slacker is a standalone JavaScript tool to lazy load images on a page. Slacker uses data- attributes which store the images actual source and then replace a dummy src in the image when it becomes visible in the viewport." />
+  <meta property="og:type" content="article" />
+  <meta property="article:author" content="Marcos Mellado (@mmellado) - http://mellados.com" />
+  <link href="http://mellados.com/i/favicon.ico" rel="shortcut icon">
+  <link rel="stylesheet" href="css/style.css">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+ <!--  
+  Copyright 2014 LinkedIn Corp. All rights reserved. 
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ -->
+</head>
+
+<body>
+  <h1>Slacker.js</h1>
+
+  <section >
+    <p>
+      Slacker is a standalone JavaScript tool to lazy load images on a page. Slacker uses data- attributes which store the images actual source and then replace a dummy src in the image when it becomes visible in the viewport.
+    </p>
+    <p>The images in the following list are only displayed when they appear in the viewport.
+      While out of the viewport, the images source (The <code>src</code> attribute) point to a dummy transparent pixel.
+    </p>
+    <ul>
+      <li>
+        <img src="i/pixel.gif" data-img-src="i/img1.jpg" alt="Image 1" id="img1" width="400" height="300" />
+      </li>
+      <li>
+        <img src="i/pixel.gif" data-img-src="i/img2.jpg" alt="Image 2" id="img2" width="400" height="300" />
+      </li>
+      <li>
+        <img src="i/pixel.gif" data-img-src="i/img3.jpg" alt="Image 3" id="img3" width="400" height="300" />
+      </li>
+      <li>
+        <img src="i/pixel.gif" data-img-src="i/img4.jpg" alt="Image 4" id="img4" width="400" height="300" />
+      </li>
+      <li>
+        <img src="i/pixel.gif" data-img-src="i/img5.jpg" alt="Image 5" id="img5" width="400" height="300" />
+      </li>
+      <li>
+        <img src="i/pixel.gif" data-img-src="i/img6.jpg" alt="Image 6" id="img6" width="400" height="300" />
+      </li>
+      <li>
+        <img src="i/pixel.gif" data-img-src="i/img7.jpg" alt="Image 7" id="img7" width="400" height="300" />
+      </li>
+      <li>
+        <img src="i/pixel.gif" data-img-src="i/img8.jpg" alt="Image 8" id="img8" width="400" height="300" />
+      </li>
+    </ul>
+  </section>
+
+  <aside class="code">
+    <h2>How to use</h2>
+    <p>
+      The first step is to include the script in your HTML file. Since no additional libraries are needed, there is no other requirement
+    </p>
+    <pre>
+&lt;script src="scripts/slacker.min.js"&gt;&lt;/script&gt;
+    </pre>
+
+    <p>
+      Then, add some images to your mage. As the <code>src</code> attribute, add <a href="http://mellados.com/projects/slacker/i/pixel.gif" target="_blank">this transparent pixel</a> or any other placeholder image, and add your image's path/url in the <code>data-img-src</code> attribute of your image
+    </p>
+
+    <pre>
+&lt;img src="images/pixel.gif" data-img-src="images/myImagePath.jpg" width="200" height="100" /&gt;
+    </pre>
+
+    <p>
+      After that, you just need to initialize the loader in your page
+    </p>
+    <pre>
+&lt;script&gt;
+  Slacker.init();
+&lt;script&gt;
+    </pre>
+
+    <p>
+      Another option would be to create one or more instances
+    </p>
+    <pre>
+&lt;script&gt;
+  var s = new Slacker();
+&lt;script&gt;
+    </pre>
+
+    <h2 class="header">Options</h2>
+
+    <p>
+      The following configuration options are available
+
+      <ul>
+        <li><span>dataAttribute</span> - Data attribue used as placeholder for the image src. Defaulted to <code>data-img-src</code>.</li>
+        <li><span>imageSelector</span> - CSS selector specifying the images to be loaded.</li>
+        <li><span>offset</span> - The viewport offset for images to be loads. Defaulted to 100.</li>
+        <li><span>preCallback</span> - Callback to be executed before each image is loaded.</li>
+        <li><span>postCalback</span> - Callback to be executed after each image is loaded.
+</li>
+      </ul>
+    </p>
+
+      <h3>Example</h3>
+      <pre>
+&lt;body&gt;
+  &lt;img src="images/myImagePath.jpg" /&gt;
+  &lt;img src="images/pixel.gif" class="foo" data-custom-attr="images/myImagePath2.jpg" width="200" height="100" /&gt;
+  &lt;img src="images/pixel.gif" class="foo" data-custom-attr="images/myImagePath3.jpg" width="200" height="100" /&gt;
+  &lt;img src="images/pixel.gif" class="foo" data-custom-attr="images/myImagePath4.jpg" width="200" height="100" /&gt;
+
+  &lt;script&gt;
+    var s = newSlacker({
+      dataAttribute: 'data-custom-attr',
+      preCallback: function(img, dataAttr) {
+        return basePath + dataAttr;
+      },
+      postCallback: function(img) {
+        img.className += ' loaded'
+      }
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+      </pre>
+
+      <p>
+        In this example the image path/url will be grabbed from the <code>data-custom-attr</code> attribute. It then adds the class loaded to the image.
+      </p>
+
+      <h2 class="header">API</h2>
+
+      <p>
+        The <code>renderImage</code> function has been made public for custom uses. It takes an image as a parameter as follows: <code>Slacker.renderImage(myImage);</code> where <code>myImage</code> is a DOM object representing an image.
+      </p>
+
+      <p>
+        The <code>renderAllImages</code> function has also been made public. With it you can load all the unloaded images. You can use it like this:
+      </p>
+      <pre>
+var s = new Slacker();
+s.renderAllImages();
+      </pre>
+
+      <p>
+        The <code>destroy</code> function disables the event listeners to check for images to be loaded on scroll and resize:
+      </p>
+      <pre>
+var s = new Slacker({imageSelector: '.infinite-scroll img'});
+var t = new Slacker({imageSelector: '.right-rail img'})
+t.destroy();        
+      </pre>
+  </aside>
+
+
+  <script src="js/slacker.js"></script>
+  <script src="js/script.js"></script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-53827835-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+</body>
+</html>
